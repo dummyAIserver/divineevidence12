@@ -1,0 +1,57 @@
+{
+  "name": "DivineEvidence Suite",
+  "short_name": "DivineEvidence",
+  "description": "DivineEvidence Suite - Spiritual Scanning & Legal Evidence Capture Tool",
+  "start_url": "./evidence.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "en",
+  "categories": ["utilities", "productivity", "legal"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Evidence Tool",
+      "short_name": "Evidence",
+      "description": "Open Evidence Capture Tool",
+      "url": "./evidence.html",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Divine Scan",
+      "short_name": "Scan",
+      "description": "Open Divine Image Scanner",
+      "url": "/",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshot-mobile.png", 
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}
