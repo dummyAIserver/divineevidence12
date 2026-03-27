@@ -380,7 +380,7 @@ body{
 .mobile-nav {
   display: none !important;
   position: fixed !important;
-  top: 5px !important
+  top: 5px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   z-index: 1001 !important;
