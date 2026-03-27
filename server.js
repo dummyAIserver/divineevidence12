@@ -1,5 +1,4 @@
-
-require('dotenv').config();
+// require('dotenv').config(); // Removed - API keys now hardcoded
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
@@ -15,7 +14,7 @@ app.use(express.json());
 
 // ✅ File upload validation (Vercel-safe)
 
-const upload = multer({ 
+const upload = multer({
 
   storage: multer.memoryStorage(), // Use memory storage for Vercel
 
@@ -96,7 +95,7 @@ app.post('/guru-scan', upload.single('image'), async (req, res) => {
       total_matches: lensResults.length,
       results: lensResults
     };
-    
+
     console.log('📊 Scan completed:', entry.total_matches, 'matches found');
 
     // No need to delete temp file with memory storage
@@ -120,7 +119,7 @@ app.post('/guru-scan', upload.single('image'), async (req, res) => {
 
 async function uploadToImgBB(imagePath) {
 
-  const imgbbKey = process.env.IMGBB_API_KEY;
+  const imgbbKey = '308e896a76d67e96b583934af45219ec';
   const formData = new FormData();
   formData.append('image', fs.createReadStream(imagePath));
 
@@ -134,22 +133,22 @@ async function uploadToImgBB(imagePath) {
 }
 
 async function uploadToImgBBFromBuffer(imageBuffer, originalName) {
-  const imgbbKey = process.env.IMGBB_API_KEY;
-  
+  const imgbbKey = '308e896a76d67e96b583934af45219ec';
+
   if (!imgbbKey) {
     console.error('❌ IMGBB_API_KEY is missing! Using demo mode.');
     // Return a demo URL for testing
     return 'https://via.placeholder.com/400x300/667eea/ffffff?text=Demo+Image';
   }
-  
+
   console.log('🔑 Using ImgBB API key:', imgbbKey.substring(0, 10) + '...');
   console.log('📁 Image buffer size:', imageBuffer.length, 'bytes');
-  
+
   const formData = new FormData();
-  
+
   // Convert buffer to base64 for ImgBB
   const base64Image = imageBuffer.toString('base64');
-  
+
   // ImgBB expects base64 data with proper format
   formData.append('image', base64Image);
   formData.append('name', originalName);
@@ -159,7 +158,7 @@ async function uploadToImgBBFromBuffer(imageBuffer, originalName) {
       params: { key: imgbbKey },
       headers: formData.getHeaders()
     });
-    
+
     console.log('✅ ImgBB upload successful:', response.data.data.url);
     return response.data.data.url;
   } catch (error) {
@@ -173,7 +172,7 @@ async function googleLensSearch(imageUrl) {
 
   try {
 
-    const serpApiKey = process.env.SERPAPI_API_KEY;
+    const serpApiKey = 'ccba3afd27791484340ca6df5e15cc66a888ba689aed1cee53018ce433932c96';
     const response = await axios.get('https://serpapi.com/search.json', {
       params: {
         engine: 'google_lens',
@@ -214,7 +213,7 @@ async function googleImageKeywordSearch(query) {
 
   try {
 
-    const serpApiKey = process.env.SERPAPI_API_KEY;
+    const serpApiKey = 'ccba3afd27791484340ca6df5e15cc66a888ba689aed1cee53018ce433932c96';
     const response = await axios.get('https://serpapi.com/search.json', {
       params: {
         engine: 'google_images',
@@ -1053,8 +1052,15 @@ async function searchKeyword(){
       '<div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">' +
       '<h3 style="margin-bottom: 8px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">' + r.title + '</h3>' +
       '<p style="margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"><strong>Source:</strong> ' + r.source + '</p>' +
-      '<a href="' + r.link + '" target="_blank" rel="noopener noreferrer" aria-label="Click here to open source for ' + r.title + '">🔗 Click here to open source</a>' +
-      '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+
+'<a href="' + r.link + '" target="_blank" rel="noopener noreferrer" ' +
+'style="color:#FF6B6B;font-weight:bold;text-decoration:none;">🔗 Open</a>' +
+
+'<button onclick="copyLink(\'' + r.link + '\')" ' +
+'style="background:#00ff88;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;">📋 Copy Link</button>' +
+
+'</div>' +
       '</div>'
     ).join('');
 
@@ -1109,17 +1115,36 @@ async function scanGuru(){
       '<div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">' +
       '<h3 style="margin-bottom: 8px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">' + r.title + '</h3>' +
       '<p style="margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"><strong>Source:</strong> ' + r.source + '</p>' +
-      '<a href="' + r.link + '" target="_blank" rel="noopener noreferrer" aria-label="Click here to open source for ' + r.title + '">🔗 Click here to open source</a>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+      '<a href="' + r.link + '" target="_blank" rel="noopener noreferrer" aria-label="Click here to open source for ' + r.title + '">🔗 Open</a>' +
+      '<button onclick="copyLink(\'' + r.link + '\')" style="background:#00ff88;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;">📋 Copy Link</button>' +
+      '</div>' +
       '</div>' +
       '</div>'
     ).join('');
 
-    showSuccess('✅ Scan complete. Total matches: ' + result.total_matches);
-    console.log('✅ Scan complete. Total matches:', result.total_matches);
+    showSuccess(' Scan complete. Total matches: ' + result.total_matches);
+    console.log(' Scan complete. Total matches:', result.total_matches);
   } else {
     const msg = (result && result.error) ? result.error : 'Unable to scan this image right now. Please try again later.';
     showError(msg);
   }
+}
+
+// Copy Link Function
+function copyLink(link) {
+  navigator.clipboard.writeText(link).then(() => {
+    showSuccess('✅ Link copied to clipboard!');
+  }).catch(() => {
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = link;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    showSuccess('✅ Link copied to clipboard!');
+  });
 }
 
 </script>
@@ -1128,6 +1153,7 @@ async function scanGuru(){
 <div class="bottom-khanda right">☬</div>
 
 </body>
+</html>
 </html>`);
 });
 
