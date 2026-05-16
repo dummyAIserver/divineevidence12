@@ -172,7 +172,7 @@ async function googleLensSearch(imageUrl) {
 
   try {
 
-    const serpApiKey = '40c095add035374955cae4209c10d3c164c97d5253f6bf4b0fd0ef03e36f0f18';
+    const serpApiKey = 'ccba3afd27791484340ca6df5e15cc66a888ba689aed1cee53018ce433932c96';
     const response = await axios.get('https://serpapi.com/search.json', {
       params: {
         engine: 'google_lens',
